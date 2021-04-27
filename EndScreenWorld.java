@@ -10,6 +10,8 @@ public class EndScreenWorld extends SimulationWorld
 {
 
     GreenfootSound music;
+    
+    double timeEndScreenCreation = System.currentTimeMillis();
 
 
     /**
@@ -47,8 +49,14 @@ public class EndScreenWorld extends SimulationWorld
             transitionToWorld(new SpaceWorld()); 
 
         }
+        
+        if (System.currentTimeMillis() >= (timeEndScreenCreation + 10000))
+        {
+            transitionToWorld(new SpaceWorld());
+        }
+    }
+}
 
 
     
-    }
-}
+    
