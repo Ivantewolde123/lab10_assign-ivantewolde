@@ -28,11 +28,35 @@ public class SpaceShip extends SimulationActor
         
     }
 
-    public void act() 
+  public void act() 
+  {
+    super.act();
+    MouseInfo mouse = Greenfoot.getMouseInfo();
+       
+    if (mouse != null)
     {
-      
+        Point2D mouseWindowPos = new Point2D(mouse.getX(), mouse.getY());
+        Point2D mouseWorldPos = windowToWorld(mouseWindowPos);
+        position.setX(mouseWorldPos.getX());
         
+        Vector2D rocketToMouse = new Vector2D(mouse.getX() - getX(), mouse.getY() - getY());
         
-        destroyShipOnCollision();
-    }    
-}
+        if (Greenfoot.mouseClicked(null))
+        {
+            // Calculate Velocity Vector
+            rocketToMouse = windowToWorld(rocketToMouse);
+            rocketToMouse.normalize();
+            rocketToMouse = Vector2D.multiply(rocketToMouse, BULLET_VELOCITY);
+            // Shoot bullet with velocity 
+            Bullet bullet = new Bullet();
+            bullet.setVelocity(rocketToMouse);
+            SimulationWorld world = (SimulationWorld) getWorld();
+            world.addObject(bullet, this.getX(), this.getY());
+            bullet.setRotation(90);
+        }
+    }
+            
+    destroyShipOnCollision();    
+   }   
+}    
+    
